@@ -1,0 +1,21 @@
+.chatbox {
+  background: white;
+  width: 400px;
+  height: 600px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.loading {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
