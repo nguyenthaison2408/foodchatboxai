@@ -12,6 +12,12 @@ const ChatInput = ({ onSend }) => {
     setImage(null);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  };
+
   return (
     <div className="chat-input">
       <input
@@ -19,8 +25,13 @@ const ChatInput = ({ onSend }) => {
         placeholder="Nhập câu hỏi hoặc chọn ảnh món ăn..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
-      <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setImage(e.target.files[0])}
+      />
       <button onClick={handleSend}>Gửi</button>
     </div>
   );

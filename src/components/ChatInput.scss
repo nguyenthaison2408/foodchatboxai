@@ -21,14 +21,19 @@
     }
   }
 
-  button {
-    padding: 10px 15px;
+  input[type="file"] {
     border: none;
-    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
     background: #4e8cff;
     color: white;
     cursor: pointer;
-    width: 40px;
+    font-weight: bold;
     height: 40px;
     transition: all 0.2s ease;
 

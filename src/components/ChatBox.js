@@ -17,17 +17,22 @@ const ChatBox = () => {
 
     try {
       let res;
+
       if (image) {
         const formData = new FormData();
-        formData.append("image", image);
-        res = await axios.post("http://localhost:5000/api/chat/image", formData);
+        formData.append("file", image); // key 'file' phải trùng backend
+
+        res = await axios.post("http://localhost:5000/image-analysis", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       } else {
-        res = await axios.post("http://localhost:5000/api/chat", { message: text });
+        res = await axios.post("http://localhost:5000/chat", { message: text });
       }
 
-      setMessages([...newMessages, { sender: "bot", text: res.data.reply }]);
+      setMessages(prev => [...prev, { sender: "bot", text: res.data.reply }]);
     } catch (err) {
-      setMessages([...newMessages, { sender: "bot", text: "❌ Lỗi khi gọi AI!" }]);
+      console.error("❌ Lỗi khi gọi AI:", err.response?.data || err.message);
+      setMessages(prev => [...prev, { sender: "bot", text: "❌ Lỗi khi gọi AI!" }]);
     }
 
     setLoading(false);
