@@ -2,8 +2,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #4e8cff;
+  background: linear-gradient(135deg, #4e8cff, #6da8ff);
   color: white;
-  padding: 12px;
-  border-radius: 20px 20px 0 0;
+  padding: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
