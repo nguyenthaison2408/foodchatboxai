@@ -1,10 +1,11 @@
 import React from "react";
 import "./ChatMessage.scss";
 
-const ChatMessage = ({ sender, text }) => {
+const ChatMessage = ({ sender, text, image }) => {
   return (
     <div className={`chat-message ${sender}`}>
-      <p>{text}</p>
+      {image && <img src={image} alt="user-upload" className="chat-image" />}
+      {text && <div className="chat-text">{text}</div>}
     </div>
   );
 };
