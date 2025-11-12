@@ -59,28 +59,4 @@
     }
   }
 
-  .upload-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #ffa23f, #ff944e); /* ấm hơn trên dark */
-    color: #fff;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255, 148, 78, 0.35);
-    transition: all 0.25s ease;
-
-    &:hover {
-      background: linear-gradient(135deg, #e68a2f, #ff812f);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(255, 148, 78, 0.45);
-    }
-
-    &:active {
-      transform: scale(0.97);
-    }
-  }
 }

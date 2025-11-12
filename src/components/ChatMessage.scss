@@ -5,45 +5,74 @@
   padding: 15px 18px;
 }
 
-/* Cấu trúc chung cho bong bóng chat */
+/* Bong bóng chat chung */
 .chat-message {
+  display: flex;               /* flex giúp text + ảnh xếp theo chiều dọc */
+  flex-direction: column;
   padding: 12px 16px;
   border-radius: 20px;
   max-width: 70%;
   font-size: 15px;
   line-height: 1.5;
-  word-wrap: break-word;
-  animation: fadeIn 0.25s ease-in-out;
+  word-break: break-word;      /* chữ dài xuống dòng */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  display: inline-block;
   transition: all 0.25s ease;
+  animation: fadeIn 0.25s ease-in-out;
 }
 
-/* Tin nhắn người dùng (nằm bên phải) */
+/* Bong bóng user (bên phải) */
 .chat-message.user {
   background: linear-gradient(135deg, #4e8cff, #6da8ff);
   color: #fff;
-  align-self: flex-end; /* 👈 Căn phải */
+  align-self: flex-end;
+  text-align: left;            /* text-align left, không bị tách ký tự */
   border-bottom-right-radius: 6px;
-  text-align: right;
 }
 
-/* Tin nhắn AI (nằm bên trái) */
+/* Bong bóng bot (bên trái) */
 .chat-message.bot {
   background: #f3f5fb;
   color: #222;
-  align-self: flex-start; /* 👈 Căn trái */
-  border-bottom-left-radius: 6px;
+  align-self: flex-start;
   text-align: left;
+  border-bottom-left-radius: 6px;
 }
 
-/* Hiệu ứng nổi nhẹ khi hover */
+/* Text bên trong bong bóng */
+.chat-message .chat-text {
+  display: block;
+  white-space: pre-wrap;       /* giữ khoảng trắng và xuống dòng bình thường */
+  word-break: break-word;     
+  overflow-wrap: break-word;    /* chữ dài xuống dòng */
+}
+
+/* Ảnh trong tin nhắn */
+.chat-message .chat-image {
+  max-width: 150px;
+  border-radius: 12px;
+  margin-top: 6px;
+  display: block;
+}
+
+/* Tin nhắn món ăn (bot) */
+.chat-message .chat-food {
+  background: #eef0f5;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #222;
+  display: block;
+  max-width: 100%;
+  margin-top: 4px;
+}
+
+/* Hiệu ứng hover */
 .chat-message:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Animation hiện ra */
+/* Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;

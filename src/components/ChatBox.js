@@ -88,30 +88,37 @@ const ChatBox = () => {
       </div>
 
       <div className="chat-input-wrapper">
-        <input
-          type="text"
-          placeholder="Nhập tin nhắn..."
-          ref={textInputRef}
-          onKeyDown={e => { if (e.key === "Enter") sendMessage(e.target.value) }}
-          disabled={loading}
-          className="chat-input"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          ref={fileInputRef}
-          disabled={loading}
-          className="chat-file-input"
-        />
-        <button
-          onClick={() => sendMessage(textInputRef.current?.value)}
-          disabled={loading}
-          className="chat-send-btn"
-        >
-          Gửi
-        </button>
-      </div>
+  <input
+    type="text"
+    placeholder="Nhập tin nhắn..."
+    ref={textInputRef}
+    onKeyDown={e => { if (e.key === "Enter") sendMessage(e.target.value) }}
+    disabled={loading}
+    className="chat-input"
+  />
+
+  <label className="upload-btn">
+  <span className="icon">📷</span>
+  Chọn ảnh
+  <input
+    type="file"
+    accept="image/*"
+    onChange={handleFileChange}
+    ref={fileInputRef}
+    disabled={loading}
+  />
+</label>
+
+
+  <button
+    onClick={() => sendMessage(textInputRef.current?.value)}
+    disabled={loading}
+    className="chat-send-btn"
+  >
+    Gửi
+  </button>
+</div>
+
 
       {selectedImage && (
         <div className="preview">
