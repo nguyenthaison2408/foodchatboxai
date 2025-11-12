@@ -1,8 +1,8 @@
 .app {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #a2c2ff, #f5f9ff);
+  flex-direction: column;
   height: 100vh;
+  background: #1e1e2f; /* nền tối */
   font-family: 'Poppins', sans-serif;
+  color: #e0e0e0;
 }

@@ -1,41 +1,35 @@
 .chatbox {
-  background: #ffffff;
-  width: 420px;
-  height: 620px;
-  border-radius: 24px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background: #1e1e2f; /* nền dark */
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-  }
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .messages {
   flex: 1;
-  padding: 18px;
+  padding: 24px 48px;
   overflow-y: auto;
-  background: linear-gradient(180deg, #f7faff, #eef3ff);
+  background: #2a2a3d; /* nền chat dark */
   scrollbar-width: thin;
-  scrollbar-color: #a5b4fc #f0f4ff;
+  scrollbar-color: #6a7df5 #2a2a3d;
 
   &::-webkit-scrollbar {
     width: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #a5b4fc;
+    background: #6a7df5;
     border-radius: 10px;
   }
 }
 
 .loading {
   text-align: center;
-  color: #888;
+  color: #aaa;
   font-style: italic;
   padding-top: 10px;
 }

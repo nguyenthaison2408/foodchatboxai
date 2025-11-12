@@ -20,20 +20,28 @@ const ChatInput = ({ onSend }) => {
 
   return (
     <div className="chat-input">
-      <input
-        type="text"
-        placeholder="Nhập câu hỏi hoặc chọn ảnh món ăn..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        onKeyDown={handleKeyDown}
-      />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setImage(e.target.files[0])}
-      />
-      <button onClick={handleSend}>Gửi</button>
-    </div>
+  <input
+    type="text"
+    placeholder="Nhập câu hỏi hoặc chọn ảnh món ăn..."
+    value={text}
+    onChange={(e) => setText(e.target.value)}
+    onKeyDown={handleKeyDown}
+  />
+
+  {/* Button tùy chỉnh cho upload ảnh */}
+  <label className="upload-btn">
+    📷 Chọn ảnh
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => setImage(e.target.files[0])}
+      style={{ display: "none" }}
+    />
+  </label>
+
+  <button onClick={handleSend}>Gửi</button>
+</div>
+
   );
 };
 
