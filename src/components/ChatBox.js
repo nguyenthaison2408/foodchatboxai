@@ -4,66 +4,83 @@ import ChatMessage from "./ChatMessage";
 import ChatHeader from "./ChatHeader";
 import "./ChatBox.scss";
 
+// ====== CONFIG BACKEND ======
+const API = "http://localhost:5000";
+
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+
   const fileInputRef = useRef();
   const textInputRef = useRef();
 
+  // ---------------- SEND MESSAGE -----------------
   const sendMessage = async (text = "") => {
     if (!text && !selectedImage) return alert("Nhập tin nhắn hoặc chọn ảnh");
 
     setLoading(true);
 
     // Hiển thị tin nhắn user
-    const newMessages = [...messages];
-    if (text) newMessages.push({ sender: "user", text });
+    const newMsgs = [...messages];
+    if (text) newMsgs.push({ sender: "user", text });
     if (selectedImage)
-      newMessages.push({ sender: "user", image: URL.createObjectURL(selectedImage) });
-    setMessages(newMessages);
+      newMsgs.push({ sender: "user", image: URL.createObjectURL(selectedImage) });
+    setMessages(newMsgs);
 
     try {
       let res;
 
+      // ---------- IMAGE MODE ----------
       if (selectedImage) {
         const formData = new FormData();
         formData.append("file", selectedImage);
 
-        res = await axios.post("http://localhost:5000/image-analysis", formData, {
+        res = await axios.post(`${API}/image-analysis`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
-        // Nếu AI trả về danh sách món ăn JSON
-        if (res.data.reply && Array.isArray(res.data.reply)) {
-          const foodMessages = res.data.reply.map(food => ({
+        // Nếu backend trả JSON danh sách món
+        if (Array.isArray(res.data.reply)) {
+          const foods = res.data.reply.map(item => ({
             sender: "bot",
-            food
+            food: item
           }));
-          setMessages(prev => [...prev, ...foodMessages]);
+          setMessages(prev => [...prev, ...foods]);
         } else {
           setMessages(prev => [...prev, { sender: "bot", text: res.data.reply }]);
         }
-
-      } else {
-        res = await axios.post("http://localhost:5000/chat", { message: text });
-        setMessages(prev => [...prev, { sender: "bot", text: res.data.reply }]);
       }
 
-      // Reset input và ảnh
+      // ---------- TEXT MODE ----------
+      else {
+        res = await axios.post(`${API}/chat`, { message: text });
+
+        setMessages(prev => [
+          ...prev,
+          { sender: "bot", text: res.data.reply }
+        ]);
+      }
+
+      // Reset input
       setSelectedImage(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
       if (textInputRef.current) textInputRef.current.value = "";
+
     } catch (err) {
-      console.error("❌ Lỗi khi gọi AI:", err.response?.data || err.message);
-      setMessages(prev => [...prev, { sender: "bot", text: "❌ Lỗi khi gọi AI!" }]);
+      console.error("❌ AI ERROR:", err.response?.data || err.message);
+
+      setMessages(prev => [
+        ...prev,
+        { sender: "bot", text: "❌ AI processing failed!" }
+      ]);
     }
 
     setLoading(false);
   };
 
   const handleFileChange = e => {
-    if (e.target.files && e.target.files[0]) setSelectedImage(e.target.files[0]);
+    if (e.target.files?.[0]) setSelectedImage(e.target.files[0]);
   };
 
   const removePreview = () => {
@@ -74,6 +91,8 @@ const ChatBox = () => {
   return (
     <div className="chatbox">
       <ChatHeader />
+
+      {/* MESSAGE LIST */}
       <div className="messages">
         {messages.map((msg, i) => (
           <ChatMessage
@@ -81,44 +100,43 @@ const ChatBox = () => {
             sender={msg.sender}
             text={msg.text}
             image={msg.image}
-            food={msg.food} // hỗ trợ object món ăn
+            food={msg.food}
           />
         ))}
+
         {loading && <div className="loading">Đang xử lý...</div>}
       </div>
 
+      {/* INPUT */}
       <div className="chat-input-wrapper">
-  <input
-    type="text"
-    placeholder="Nhập tin nhắn..."
-    ref={textInputRef}
-    onKeyDown={e => { if (e.key === "Enter") sendMessage(e.target.value) }}
-    disabled={loading}
-    className="chat-input"
-  />
+        <input
+          type="text"
+          placeholder="Nhập tin nhắn..."
+          ref={textInputRef}
+          onKeyDown={e => e.key === "Enter" && sendMessage(e.target.value)}
+          disabled={loading}
+          className="chat-input"
+        />
 
-  <label className="upload-btn">
-  <span className="icon">📷</span>
-  Chọn ảnh
-  <input
-    type="file"
-    accept="image/*"
-    onChange={handleFileChange}
-    ref={fileInputRef}
-    disabled={loading}
-  />
-</label>
+        <label className="upload-btn">
+          <span className="icon">📷</span> Chọn ảnh
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+            disabled={loading}
+          />
+        </label>
 
-
-  <button
-    onClick={() => sendMessage(textInputRef.current?.value)}
-    disabled={loading}
-    className="chat-send-btn"
-  >
-    Gửi
-  </button>
-</div>
-
+        <button
+          onClick={() => sendMessage(textInputRef.current?.value)}
+          disabled={loading}
+          className="chat-send-btn"
+        >
+          Gửi
+        </button>
+      </div>
 
       {selectedImage && (
         <div className="preview">
