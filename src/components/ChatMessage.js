@@ -1,5 +1,5 @@
 import React from "react";
-import "./ChatMessage.scss";
+import "./ChatUI.scss";
 
 const ChatMessage = ({ sender, text, image, food }) => {
   if (food) {

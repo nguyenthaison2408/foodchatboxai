@@ -1,0 +1,151 @@
+/* ---------------------------------
+   CHATBOX
+---------------------------------- */
+.chatbox {
+  background: #1e1e2f;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ---------------------------------
+   HEADER
+---------------------------------- */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #4e8cff, #6da8ff);
+  color: #fff;
+  padding: 14px;
+  font-weight: 600;
+  border-radius: 24px 24px 0 0;
+  font-size: 18px;
+}
+
+/* ---------------------------------
+   MESSAGES
+---------------------------------- */
+.messages {
+  flex: 1;
+  padding: 20px 30px;
+  overflow-y: auto;
+  background: #2a2a3d;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------
+   BUBBLES
+---------------------------------- */
+.chat-message {
+  display: inline-block; /* để ôm gọn content */
+  padding: 10px 14px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  animation: fadeIn 0.25s ease-in-out;
+  line-height: 1.45;
+  word-wrap: break-word;
+  max-width: 70%; /* tối đa 70% width container */
+}
+
+.chat-message.user {
+  background: #4e8cff;
+  color: #fff;
+  align-self: flex-end; /* bên phải */
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 16px;
+}
+
+.chat-message.bot {
+  background: #3a3a4f;
+  color: #e0e0e0;
+  align-self: flex-start; /* bên trái */
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 16px;
+}
+
+/* ---------------------------------
+   TEXT & IMAGE
+---------------------------------- */
+.chat-text {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.chat-image {
+  max-width: 140px;
+  border-radius: 10px;
+  margin-top: 6px;
+  display: block;
+}
+
+/* ---------------------------------
+   INPUT AREA
+---------------------------------- */
+.chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #2a2a3d;
+  border-top: 1px solid #3a3a4f;
+}
+
+/* INPUT BOX */
+.chat-input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid #444;
+  background: #3a3a4f;
+  color: #eee;
+  outline: none;
+  font-size: 14px;
+}
+
+/* SEND BUTTON */
+.chat-send-btn {
+  padding: 9px 14px;
+  border-radius: 14px;
+  background: #4e8cff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ---------------------------------
+   UPLOAD BUTTON
+---------------------------------- */
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #ffca4e;
+  border-radius: 14px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  user-select: none;
+}
+
+.upload-btn:hover {
+  background: #f5ba34;
+}
+
+.upload-btn input[type="file"] {
+  display: none; /* ẩn input file mặc định */
+}
+
+/* ---------------------------------
+   ANIMATION
+---------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

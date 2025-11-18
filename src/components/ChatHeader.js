@@ -1,5 +1,5 @@
 import React from "react";
-import "./ChatHeader.scss";
+import "./ChatUI.scss";
 
 const ChatHeader = () => {
   return (

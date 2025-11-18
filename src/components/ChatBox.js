@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import ChatMessage from "./ChatMessage";
 import ChatHeader from "./ChatHeader";
-import "./ChatBox.scss";
+import "./ChatUI.scss";
 
 // ====== CONFIG BACKEND ======
 const API = "http://localhost:5000";
