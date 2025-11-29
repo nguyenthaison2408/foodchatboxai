@@ -1,0 +1,236 @@
+/* 🌑 Toàn trang ChatAI */
+.chat-page {
+  background: #111;
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  color: #e0e0e0;
+}
+
+/* 🪟 Hộp chat chính */
+.chat-box {
+  background: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  max-height: 850px;
+  width: 100%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+/* 🟥 Header */
+.chat-box header {
+  background: linear-gradient(90deg, #b30047, #d6452d);
+  padding: 10px 14px; /* ⬅ giảm từ 16px xuống 10px */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    color: #fff;
+    font-size: 1rem; /* ⬅ thêm để tiêu đề nhỏ lại */
+  }
+
+  .model-tag {
+    padding: 2px 10px; /* ⬅ thu gọn tag phiên bản */
+    font-size: 10px;
+  }
+}
+
+
+/* 💬 Vùng tin nhắn */
+.chat-area {
+  flex: 1;
+  padding: 18px;
+  overflow-y: auto !important;
+  background: #0f0f0f;
+  scroll-behavior: smooth;
+}
+
+/* 🔽 Animation load tin nhắn */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 💬 Tin nhắn */
+.chat-message {
+  display: flex;
+  margin-bottom: 14px;
+  animation: fadeUp 0.25s ease forwards;
+
+  .bubble {
+    max-width: 75%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  &.user {
+    justify-content: flex-end;
+
+    .bubble {
+      background: #4A7AF7;
+      color: #fff;
+      border-radius: 14px 14px 0 14px;
+    }
+  }
+
+  &.ai {
+    justify-content: flex-start;
+
+    .bubble {
+      background: #1f1f1f;
+      border: 1px solid #2f2f2f;
+      color: #e8e8e8;
+      border-radius: 14px 14px 14px 0;
+    }
+  }
+}
+
+/* ⌛ Buble AI đang tải */
+.ai-typing .typing-bubble {
+  background: #1f1f1f;
+  border: 1px solid #2f2f2f;
+  color: #ccc;
+  padding: 10px 16px;
+  border-radius: 14px 14px 14px 0;
+  font-size: 0.9rem;
+}
+
+/* 💡 Suggestion Chips */
+.suggestion-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 4px 6px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  button {
+    background: #232323;
+    color: #ff867c;
+    border: 1px solid #ff5e4d;
+    padding: 10px 18px;
+    border-radius: 40px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    /* ⭐ Cho text giãn ra và xuống hàng đúng */
+    white-space: normal;
+    min-width: max-content;
+    flex-shrink: 0;
+    line-height: 1.35;
+
+    &:hover {
+      background: #ff5e4d;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+
+/* ✍️ Thanh nhập tin nhắn */
+.input-area {
+  background: #1c1c1c;
+  padding: 14px;
+  border-top: 1px solid #333;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+/* Ô nhập */
+.input-area textarea {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: #eee;
+  padding: 12px 14px;
+  border-radius: 12px;
+  min-height: 50px;
+  max-height: 150px;
+  resize: none;
+  outline: none;
+  transition: 0.2s;
+
+  &:focus {
+    border-color: #ff675c;
+    box-shadow: 0 0 8px rgba(255, 87, 87, 0.4);
+  }
+}
+
+/* Nút Send */
+.input-area button {
+  background: #ff3e34;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s ease-in-out;
+
+  &:hover:not(:disabled) {
+    background: #ff5e4d;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 87, 87, 0.4);
+  }
+
+  &:disabled {
+    background: #444;
+    color: #777;
+    cursor: not-allowed;
+  }
+}
+
+/* Footer note */
+.disclaimer {
+  font-size: 10px;
+  color: #777;
+  text-align: center;
+}
+
+/* 📝 Vùng nhập chat 1 dòng */
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-row textarea {
+  flex: 1;
+  min-height: 58px;
+  border-radius: 14px;
+}
+
+.input-row button.send-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

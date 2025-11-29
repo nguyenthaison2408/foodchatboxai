@@ -1,0 +1,113 @@
+.meal-planner-page {
+  background: #0f0f0f;
+  color: #fff;
+
+  .input-card,
+  .meal-card,
+  .shopping-card {
+    background: #1a1a1a;
+    border: 1px solid #292929;
+    border-radius: 18px;
+  }
+
+  select,
+  input {
+    background: #111;
+    color: white;
+    border: 1px solid #333;
+    transition: 0.25s;
+    &:focus { border-color: #ff5533; }
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* 🔥 TAB ngày */
+  .day-tabs button {
+    background: #181818;
+    border-radius: 12px;
+    border: 1px solid #252525;
+    opacity: 0.6;
+    transition: 0.25s;
+    &:hover {
+      opacity: 1;
+      background: #222;
+    }
+  }
+
+  .active-day {
+    background: #ff3e34 !important;
+    opacity: 1 !important;
+    border-color: #ff3e34 !important;
+    color: #fff !important;
+    font-weight: bold;
+  }
+
+  /* 🍽 Meal Card */
+  .meal-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 22px;
+    border-radius: 16px;
+    transition: background 0.25s, border 0.25s;
+    &:hover {
+      background: #222;
+      border-color: #444;
+    }
+  }
+
+  /* 🏷 Tag loại bữa ăn */
+  .meal-type {
+    background: #ff3e34;
+    padding: 3px 10px;
+    color: #fff;
+    font-size: 11px;
+    border-radius: 20px;
+    margin-right: 8px;
+    text-transform: uppercase;
+  }
+
+  /* 🔄 Nút đổi món */
+  .meal-card button {
+    background: #111;
+    border-radius: 50%;
+    padding: 8px;
+    border: 1px solid transparent;
+    transition: 0.25s;
+    &:hover {
+      border-color: #ff3e34;
+      color: #ff3e34;
+      transform: rotate(20deg);
+    }
+  }
+
+  /* 🛒 Shopping */
+  .shopping-card {
+    background: #141414;
+    border-radius: 20px;
+  }
+  .shopping-title {
+    color: #ff8a70;
+    font-weight: bold;
+  }
+  .analysis-text {
+    font-size: 13px;
+    opacity: 0.6;
+    margin-top: 8px;
+  }
+
+  /* ✨ Typography & spacing */
+  .meal-card span.font-medium {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  p {
+    line-height: 1.45;
+  }
+  .text-xs {
+    opacity: 0.7;
+  }
+}
