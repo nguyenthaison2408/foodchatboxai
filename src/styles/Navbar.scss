@@ -1,0 +1,114 @@
+/* --- Variables (Đồng bộ với Home.css) --- */
+:root {
+  --primary-color: #ea580c; /* Orange-600 */
+  --text-dark: #111827; /* Gray-900 - Đậm hơn để dễ đọc */
+  --text-medium: #374151; /* Gray-700 - Dùng cho menu chưa active */
+  --bg-glass: rgba(255, 255, 255, 0.95); /* Tăng độ đục lên một chút */
+}
+
+/* --- Navbar Container --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Viền tối hơn xíu */
+}
+
+/* --- Logo --- */
+.navbar .logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar .logo h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.logo-icon {
+  color: var(--primary-color);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* --- Navigation Links --- */
+.nav-links {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-item {
+  text-decoration: none;
+  /* Thay đổi màu chữ mặc định đậm hơn (Gray-700 thay vì Gray-500) */
+  color: var(--text-medium); 
+  font-weight: 700; /* Tăng độ dày chữ */
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+/* Hover State */
+.nav-item:hover {
+  color: var(--primary-color); /* Chữ chuyển cam khi hover */
+  background-color: #fff7ed; /* Nền cam nhạt */
+}
+
+/* Active State */
+.nav-item.active {
+  color: #fff; /* Chữ trắng trên nền cam */
+  background-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+}
+
+.nav-item.active svg {
+  color: #fff;
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+
+  .nav-item span {
+    display: none;
+  }
+
+  .nav-item {
+    padding: 0.8rem;
+    border-radius: 50%;
+  }
+}

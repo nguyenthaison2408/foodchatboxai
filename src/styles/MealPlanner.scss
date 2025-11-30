@@ -1,113 +1,371 @@
+/* --- Variables --- */
+$primary-color: #ff5722; // Deep Orange
+$primary-hover: #e64a19;
+$bg-color: #fff7ed; // Orange-50
+$card-bg: #ffffff;
+$text-main: #1f2937;
+$text-light: #6b7280;
+$border-color: #fed7aa;
+$shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+$radius-lg: 16px;
+$radius-xl: 24px;
+
+/* --- Mixins --- */
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-base {
+  background: $card-bg;
+  border-radius: $radius-lg;
+  border: 1px solid rgba($border-color, 0.5);
+  box-shadow: $shadow-sm;
+}
+
+/* --- Main Layout --- */
 .meal-planner-page {
-  background: #0f0f0f;
-  color: #fff;
+  min-height: 100vh;
+  background-color: $bg-color;
+  padding: 2rem 1rem;
+  font-family: 'Inter', sans-serif;
+  color: $text-main;
 
-  .input-card,
-  .meal-card,
-  .shopping-card {
-    background: #1a1a1a;
-    border: 1px solid #292929;
-    border-radius: 18px;
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* --- Header --- */
+.meal-header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #c2410c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    
+    svg { color: $primary-color; }
   }
 
-  select,
-  input {
-    background: #111;
-    color: white;
-    border: 1px solid #333;
-    transition: 0.25s;
-    &:focus { border-color: #ff5533; }
+  p {
+    color: $text-light;
+    font-size: 1.1rem;
   }
+}
 
-  button {
-    cursor: pointer;
-  }
+/* --- Configuration Section (Inputs) --- */
+.config-section {
+  @include card-base;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border-radius: $radius-xl;
 
-  /* 🔥 TAB ngày */
-  .day-tabs button {
-    background: #181818;
-    border-radius: 12px;
-    border: 1px solid #252525;
-    opacity: 0.6;
-    transition: 0.25s;
-    &:hover {
-      opacity: 1;
-      background: #222;
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+      align-items: end;
     }
   }
 
-  .active-day {
-    background: #ff3e34 !important;
-    opacity: 1 !important;
-    border-color: #ff3e34 !important;
-    color: #fff !important;
-    font-weight: bold;
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: $text-main;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.2s;
+      background-color: #f9fafb;
+
+      &:focus {
+        border-color: $primary-color;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+    }
   }
 
-  /* 🍽 Meal Card */
+  .btn-generate {
+    @include flex-center;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: $primary-hover;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .spin {
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+/* --- Dashboard Grid (Results) --- */
+.plan-dashboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  animation: slideUp 0.6s ease-out;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* --- Left Column: Day Tabs & Meals --- */
+.meal-schedule {
+  .day-tabs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    scrollbar-width: none; // Hide scrollbar Firefox
+
+    &::-webkit-scrollbar { display: none; } // Hide scrollbar Chrome
+
+    .tab-btn {
+      padding: 0.6rem 1.2rem;
+      background: white;
+      border: 1px solid $border-color;
+      border-radius: 50px;
+      font-weight: 600;
+      color: $text-light;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+
+      &:hover {
+        background: lighten($primary-color, 45%);
+        color: $primary-color;
+      }
+
+      &.active {
+        background: $primary-color;
+        color: white;
+        border-color: $primary-color;
+        box-shadow: 0 2px 8px rgba($primary-color, 0.3);
+      }
+    }
+  }
+
+  .meals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   .meal-card {
+    @include card-base;
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 12px;
-    padding: 18px 22px;
-    border-radius: 16px;
-    transition: background 0.25s, border 0.25s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
     &:hover {
-      background: #222;
-      border-color: #444;
+      border-color: $primary-color;
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
+    }
+
+    // Color coding border
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #ccc;
+    }
+    &[data-type="Sáng"]::before { background: #facc15; }
+    &[data-type="Trưa"]::before { background: #f97316; }
+    &[data-type="Tối"]::before { background: #3b82f6; }
+    &[data-type="Phụ"]::before { background: #a8a29e; }
+
+    .meal-content {
+      flex: 1;
+
+      .meal-badges {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        span {
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 0.2rem 0.6rem;
+          border-radius: 6px;
+          text-transform: uppercase;
+          
+          &.type { background: #f3f4f6; color: $text-light; }
+          &.cal { color: #ef4444; background: #fee2e2; }
+        }
+      }
+
+      h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: $text-light;
+        line-height: 1.4;
+      }
+    }
+
+    .btn-swap {
+      @include flex-center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      color: $text-light;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: 1rem;
+
+      &:hover:not(:disabled) {
+        border-color: $primary-color;
+        color: $primary-color;
+        background: lighten($primary-color, 48%);
+        transform: rotate(180deg);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .spin { animation: spin 1s linear infinite; }
+    }
+  }
+}
+
+/* --- Right Column: Shopping List --- */
+.shopping-list-container {
+  @include card-base;
+  padding: 1.5rem;
+  border-radius: $radius-xl;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: $text-main;
     }
   }
 
-  /* 🏷 Tag loại bữa ăn */
-  .meal-type {
-    background: #ff3e34;
-    padding: 3px 10px;
-    color: #fff;
-    font-size: 11px;
-    border-radius: 20px;
-    margin-right: 8px;
-    text-transform: uppercase;
-  }
+  .category-group {
+    margin-bottom: 1.5rem;
 
-  /* 🔄 Nút đổi món */
-  .meal-card button {
-    background: #111;
-    border-radius: 50%;
-    padding: 8px;
-    border: 1px solid transparent;
-    transition: 0.25s;
-    &:hover {
-      border-color: #ff3e34;
-      color: #ff3e34;
-      transform: rotate(20deg);
+    h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: $text-light;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        line-height: 1.4;
+
+        svg {
+          color: #22c55e;
+          flex-shrink: 0;
+          margin-top: 3px;
+        }
+      }
     }
   }
 
-  /* 🛒 Shopping */
-  .shopping-card {
-    background: #141414;
-    border-radius: 20px;
+  .ai-note {
+    margin-top: 1.5rem;
+    background: #ecfdf5;
+    padding: 0.75rem;
+    border-radius: 12px;
+    color: #047857;
+    font-size: 0.85rem;
+    font-weight: 500;
+    @include flex-center;
+    justify-content: flex-start;
+    gap: 0.5rem;
   }
-  .shopping-title {
-    color: #ff8a70;
-    font-weight: bold;
-  }
-  .analysis-text {
-    font-size: 13px;
-    opacity: 0.6;
-    margin-top: 8px;
-  }
+}
 
-  /* ✨ Typography & spacing */
-  .meal-card span.font-medium {
-    font-size: 16px;
-    font-weight: 600;
-  }
-  p {
-    line-height: 1.45;
-  }
-  .text-xs {
-    opacity: 0.7;
-  }
+/* --- Animations --- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

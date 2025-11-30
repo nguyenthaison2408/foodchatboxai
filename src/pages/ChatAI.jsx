@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Loader2, Send, Bot, User, Zap, Leaf, Utensils, FileText } from 'lucide-react';
-import "../styles/ChatAI.scss";
+import "../styles/ChatAI.scss"; // Đã chuyển sang file CSS chuẩn
 
 const API_BASE_URL = "http://localhost:5000/api/chatai";
 
@@ -11,8 +11,8 @@ const ChatMessage = ({ role, text }) => {
   return (
     <div className={`chat-message ${isUser ? "user" : "ai"}`}>
       {!isUser && (
-        <div className="icon-wrapper">
-          <Bot className="icon ai-icon" />
+        <div className="icon-wrapper bg-white">
+          <Bot className="ai-icon" />
         </div>
       )}
 
@@ -22,7 +22,7 @@ const ChatMessage = ({ role, text }) => {
 
       {isUser && (
         <div className="icon-wrapper user-icon-wrapper">
-          <User className="icon user-icon" />
+          <User className="user-icon" />
         </div>
       )}
     </div>
@@ -46,22 +46,27 @@ export default function ChatAI() {
     const messageToSend = overrideText || input;
     if (!messageToSend.trim() || isLoading) return;
 
+    // 1. Cập nhật UI ngay lập tức
     setMessages(prev => [...prev, { role: "user", text: messageToSend }]);
     setInput("");
     setIsLoading(true);
 
     try {
+      // 2. Gọi API
       const res = await axios.post(API_BASE_URL, { prompt: messageToSend });
       const reply = res.data.output?.trim() || "⚠️ Không nhận được phản hồi.";
+      
+      // 3. Cập nhật câu trả lời của AI
       setMessages(prev => [...prev, { role: "ai", text: reply }]);
     } catch (error) {
       console.error("Chat Error:", error);
       setMessages(prev => [...prev, {
         role: "ai",
-        text: "⚠️ Xin lỗi, FoodAI đang gặp sự cố kết nối."
+        text: "⚠️ Xin lỗi, FoodAI đang gặp sự cố kết nối. Vui lòng thử lại sau."
       }]);
     } finally {
       setIsLoading(false);
+      // Focus lại vào ô nhập liệu để người dùng gõ tiếp
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   };
@@ -87,7 +92,9 @@ export default function ChatAI() {
         {/* HEADER */}
         <header className="chat-header">
           <div className="header-info">
-            <Bot className="header-icon" />
+            <div className="header-icon">
+                <Bot size={24} />
+            </div>
             <div>
               <h2>FoodAI Assistant</h2>
               <p>Chuyên gia Dinh dưỡng & Ẩm thực</p>
@@ -104,7 +111,7 @@ export default function ChatAI() {
                 <Utensils className="welcome-utensils" />
               </div>
               <h3>Xin chào!</h3>
-              <p>Hãy hỏi về calo, thực đơn giảm cân hoặc biến tấu món ăn nhé!</p>
+              <p>Hãy hỏi tôi về calo, thực đơn giảm cân<br/>hoặc cách biến tấu món ăn nhé!</p>
             </div>
           ) : (
             <>
@@ -113,7 +120,10 @@ export default function ChatAI() {
               ))}
               {isLoading && (
                 <div className="loading-msg">
-                  <Loader2 className="spin" />
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <Loader2 className="spin w-4 h-4" />
+                    FoodAI đang suy nghĩ...
+                  </div>
                 </div>
               )}
             </>
@@ -146,20 +156,22 @@ export default function ChatAI() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Nhập nội dung câu hỏi..."
+              placeholder="Nhập câu hỏi của bạn tại đây..."
               disabled={isLoading}
+              rows={1}
             />
             <button
               className="send-btn"
               onClick={() => handleSend()}
               disabled={isLoading || !input.trim()}
+              title="Gửi tin nhắn"
             >
               {isLoading ? <Loader2 className="spin" /> : <Send />}
             </button>
           </div>
 
           <div className="disclaimer">
-            FoodAI có thể mắc lỗi. Vui lòng kiểm tra lại thông tin quan trọng.
+            FoodAI có thể mắc lỗi. Vui lòng kiểm tra lại thông tin y tế quan trọng.
           </div>
 
         </div>

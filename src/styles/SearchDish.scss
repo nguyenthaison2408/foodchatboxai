@@ -1,0 +1,336 @@
+/* --- Variables --- */
+$primary-color: #2563eb; // Blue-600
+$primary-hover: #1d4ed8; // Blue-700
+$bg-color: #eff6ff; // Blue-50
+$card-bg: #ffffff;
+$text-main: #1e3a8a; // Blue-900
+$text-body: #4b5563; // Gray-600
+$text-light: #9ca3af;
+$accent-orange: #f97316;
+$border-radius: 20px;
+$shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+$shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+/* --- Mixins --- */
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-base {
+  background: $card-bg;
+  border-radius: $border-radius;
+  box-shadow: $shadow-card;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* --- Layout --- */
+.search-page {
+  min-height: 100vh;
+  background-color: $bg-color;
+  padding: 3rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  color: $text-body;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* --- Header Section --- */
+.search-header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: $text-main;
+    margin-bottom: 0.75rem;
+    @include flex-center;
+    gap: 0.75rem;
+
+    svg { color: #eab308; } // Yellow sparkles
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #3b82f6;
+    font-weight: 500;
+  }
+}
+
+/* --- Search Bar Area --- */
+.search-section {
+  max-width: 700px;
+  margin: 0 auto 4rem auto;
+
+  .search-box-wrapper {
+    @include card-base;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid #bfdbfe;
+
+    &:focus-within {
+      border-color: $primary-color;
+      box-shadow: 0 0 0 4px rgba($primary-color, 0.15);
+      transform: translateY(-2px);
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 1rem;
+      font-size: 1.1rem;
+      color: $text-main;
+      border-radius: $border-radius;
+
+      &::placeholder {
+        color: $text-light;
+      }
+    }
+
+    .btn-search {
+      @include flex-center;
+      gap: 0.5rem;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background-color: $primary-hover;
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .spin { animation: spin 1s linear infinite; }
+    }
+  }
+
+  /* Suggestion Chips */
+  .suggestions-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+
+    .chip-btn {
+      background: white;
+      border: 1px solid #dbeafe;
+      color: #2563eb;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+
+      &:hover {
+        background: #eff6ff;
+        border-color: $primary-color;
+        transform: translateY(-2px);
+      }
+
+      .icon { font-size: 1.1rem; }
+    }
+  }
+}
+
+/* --- Results Grid --- */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  animation: fadeUp 0.6s ease-out;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --- Dish Card --- */
+.dish-card {
+  @include card-base;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 1px solid #e5e7eb;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-hover;
+
+    .card-image img {
+      transform: scale(1.08);
+    }
+
+    .card-content h2 {
+      color: $primary-color;
+    }
+  }
+
+  .card-image {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .calorie-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: $accent-orange;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+  }
+
+  .card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .desc {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: $text-body;
+      margin-bottom: 1.5rem;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .meta-footer {
+      padding-top: 1rem;
+      border-top: 1px solid #f3f4f6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .time {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $text-light;
+        
+        svg { color: $primary-color; }
+      }
+
+      .tags {
+        display: flex;
+        gap: 0.5rem;
+
+        span {
+          background: #eff6ff;
+          color: $primary-color;
+          font-size: 0.75rem;
+          padding: 0.25rem 0.6rem;
+          border-radius: 6px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+/* --- Empty States --- */
+.loading-state {
+  text-align: center;
+  padding: 4rem 0;
+  
+  .loader-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    
+    .spinner-ring {
+      width: 100%;
+      height: 100%;
+      border: 4px solid #dbeafe;
+      border-top-color: $primary-color;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    .icon-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: $primary-color;
+    }
+  }
+  
+  p { color: $primary-color; font-weight: 600; }
+}
+
+.no-results {
+  text-align: center;
+  padding: 4rem;
+  color: $text-light;
+  font-size: 1.1rem;
+}
+
+/* --- Animations --- */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
